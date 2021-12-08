@@ -1,14 +1,14 @@
 import * as React from 'react'
 import { TUseClickOutside } from './index.types'
 
-const useClickOutside: TUseClickOutside = (
+export const useClickOutside: TUseClickOutside = (
   isOpen,
   setIsOpen,
   rootRef,
-  active: boolean = true
+  active = true
 ) => {
   React.useEffect(() => {
-    const clickOutsideEvent = (event) => {
+    const clickOutsideEvent = (event: MouseEvent) => {
       if (!active) return
       if (!rootRef.current.contains(event.target)) {
         setIsOpen(false)
@@ -17,6 +17,7 @@ const useClickOutside: TUseClickOutside = (
     const closeDropdown = () => {
       setIsOpen(false)
     }
+
     if (isOpen) {
       window.addEventListener('mousedown', clickOutsideEvent)
       window.addEventListener('blur', closeDropdown)
@@ -25,9 +26,9 @@ const useClickOutside: TUseClickOutside = (
         window.removeEventListener('blur', closeDropdown)
       }
     }
+
+    return () => {}
   }, [isOpen, setIsOpen, active])
 
   return null
 }
-
-export default useClickOutside
